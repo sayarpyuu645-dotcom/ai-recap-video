@@ -6,43 +6,22 @@
 <title>My Wallet</title>
 
 <style>
-*{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:Arial,sans-serif;
   background:#f4f6f8;
   color:#222;
 }
-
 .header{
   background:#1769aa;
   color:white;
   padding:20px;
 }
-
-.header h2{
-  margin:0 0 5px;
-}
-
 .container{
   max-width:600px;
   margin:auto;
   padding:18px;
 }
-
-.balance{
-  background:linear-gradient(135deg,#135ed0,#1769aa);
-  color:white;
-  padding:25px;
-  border-radius:18px;
-  margin-bottom:18px;
-}
-
-.balance h1{
-  margin:8px 0 0;
-}
-
 .card{
   background:white;
   padding:20px;
@@ -50,32 +29,18 @@ body{
   margin-bottom:16px;
   box-shadow:0 3px 12px #ddd;
 }
-
 button{
   width:100%;
-  border:0;
   padding:15px;
+  border:0;
   border-radius:12px;
   font-size:16px;
   font-weight:bold;
   margin-top:10px;
 }
-
-.kpay{
-  background:#f4c400;
-  color:#111;
-}
-
-.wave{
-  background:#18a957;
-  color:white;
-}
-
-.submit{
-  background:#1769aa;
-  color:white;
-}
-
+.kpay{background:#f4c400}
+.wave{background:#18a957;color:white}
+.submit{background:#1769aa;color:white}
 input,select{
   width:100%;
   padding:14px;
@@ -84,22 +49,12 @@ input,select{
   border-radius:10px;
   font-size:16px;
 }
-
 label{
   display:block;
   margin-top:14px;
   font-weight:bold;
 }
-
-.note{
-  font-size:13px;
-  color:#777;
-  line-height:1.6;
-}
-
-.paybox{
-  display:none;
-}
+#paymentBox{display:none}
 </style>
 </head>
 
@@ -112,125 +67,108 @@ label{
 
 <div class="container">
 
-  <div class="balance">
-    <small>လက်ကျန် Credits</small>
-    <h1>0 Credits</h1>
-  </div>
+<div class="card">
+<h3>💰 Credits ဝယ်ရန်</h3>
 
-  <div class="card">
+<label>ဝယ်မည့် Credits</label>
 
-    <h3>💰 Credits ဝယ်ရန်</h3>
+<select id="credits">
+<option value="1000">1,000 Credits</option>
+<option value="5000">5,000 Credits</option>
+<option value="10000">10,000 Credits</option>
+<option value="50000">50,000 Credits</option>
+</select>
 
-    <label>ဝယ်မည့် Credits</label>
+<button type="button" class="kpay" onclick="selectPayment('KPay')">
+💛 KPay
+</button>
 
-    <select id="credits">
-      <option value="1000">1,000 Credits</option>
-      <option value="5000">5,000 Credits</option>
-      <option value="10000">10,000 Credits</option>
-      <option value="50000">50,000 Credits</option>
-    </select>
+<button type="button" class="wave" onclick="selectPayment('WavePay')">
+💚 WavePay
+</button>
 
-    <button type="button" class="kpay" onclick="choose('KPay')">
-      💛 KPay ဖြင့်ငွေပေးချေမည်
-    </button>
+</div>
 
-    <button type="button" class="wave" onclick="choose('WavePay')">
-      💚 WavePay ဖြင့်ငွေပေးချေမည်
-    </button>
+<div class="card" id="paymentBox">
 
-  </div>
+<h3 id="paymentTitle"></h3>
 
-  <div class="card paybox" id="box">
+<form
+action="https://formsubmit.co/el/zikulo"
+method="POST"
+enctype="multipart/form-data"
+>
 
-    <h3 id="title"></h3>
+<input type="hidden"
+name="_subject"
+value="New Wallet Payment Receipt">
 
-    <form
-      action="https://formsubmit.co/el/zikulo"
-      method="POST"
-      enctype="multipart/form-data"
-    >
+<input type="hidden"
+name="_template"
+value="table">
 
-      <input
-        type="hidden"
-        name="_subject"
-        value="New Wallet Payment Receipt"
-      >
+<input type="hidden"
+name="payment_method"
+id="paymentMethod">
 
-      <input
-        type="hidden"
-        name="_template"
-        value="table"
-      >
+<input type="hidden"
+name="credits"
+id="creditsValue">
 
-      <input
-        type="hidden"
-        name="payment_method"
-        id="payment_method"
-      >
+<label>ငွေပေးသူအမည်</label>
 
-      <input
-        type="hidden"
-        name="credits"
-        id="credits_send"
-      >
+<input
+type="text"
+name="sender_name"
+placeholder="အမည်"
+required>
 
-      <label>ငွေပေးသူအမည်</label>
+<label>ငွေလွှဲပြေစာပုံ</label>
 
-      <input
-        type="text"
-        name="sender_name"
-        placeholder="အမည်"
-        required
-      >
+<input
+type="file"
+name="receipt"
+accept="image/png,image/jpeg,image/jpg"
+required>
 
-      <label>ပြေစာပုံ</label>
+<button class="submit" type="submit">
+📩 ပြေစာတင်မည်
+</button>
 
-      <input
-        type="file"
-        name="receipt"
-        accept="image/png,image/jpeg,image/jpg"
-        required
-      >
+</form>
 
-      <button class="submit" type="submit">
-        📩 ငွေပေးချေမှု တင်မည်
-      </button>
+</div>
 
-    </form>
+<div class="card">
+<h3>🔒 လုံခြုံရေး</h3>
 
-  </div>
-
-  <div class="card">
-
-    <h3>🔒 လုံခြုံရေး</h3>
-
-    <p class="note">
-      KPay/WavePay PIN၊ Password၊ OTP များကို
-      website ထဲ မထည့်ပါနှင့်။
-    </p>
-
-  </div>
+<p>
+KPay/WavePay PIN၊ Password၊ OTP များကို
+website ထဲ မထည့်ပါနှင့်။
+</p>
+</div>
 
 </div>
 
 <script>
 
-function choose(method){
+function selectPayment(method){
 
-  document.getElementById("box").style.display = "block";
+document.getElementById("paymentBox").style.display="block";
 
-  document.getElementById("title").innerText =
-    "💳 " + method + " ဖြင့် ငွေပေးချေခြင်း";
+document.getElementById("paymentTitle").innerText =
+"💳 "+method+" ဖြင့် ငွေပေးချေခြင်း";
 
-  document.getElementById("payment_method").value =
-    method;
+document.getElementById("paymentMethod").value =
+method;
 
-  document.getElementById("credits_send").value =
-    document.getElementById("credits").value;
+document.getElementById("creditsValue").value =
+document.getElementById("credits").value;
 
-  document.getElementById("box").scrollIntoView({
-    behavior:"smooth"
-  });
+document.getElementById("paymentBox").scrollIntoView({
+behavior:"smooth"
+});
+
 }
 
 </script>
