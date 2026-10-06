@@ -2,138 +2,236 @@
 <html lang="my">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Wallet</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f4f6f8;color:#222}
-.header{background:#1769aa;color:white;padding:18px}
-.header h2{margin:0 0 5px}
-.container{max-width:600px;margin:auto;padding:18px}
-.balance{background:linear-gradient(135deg,#135ed0,#1769aa);color:white;padding:25px;border-radius:18px;margin-bottom:18px}
-.balance h1{margin:8px 0 0}
-.card{background:white;padding:20px;border-radius:16px;margin-bottom:16px}
-button{width:100%;border:0;padding:15px;border-radius:12px;font-size:16px;font-weight:bold;margin-top:10px}
-.kpay{background:#f4c400}
-.wave{background:#18a957;color:white}
-.submit{background:#1769aa;color:white}
-input,select{width:100%;padding:14px;margin-top:8px;border:1px solid #ccc;border-radius:10px;font-size:16px}
-.note{font-size:13px;color:#777;line-height:1.6}
-.paybox{display:none}
-.account{background:#f7f7f7;padding:12px;border-radius:10px;margin-top:10px;line-height:1.8}
-.success{display:none;background:#e7f8e9;color:#176b2c;padding:14px;border-radius:10px;margin-top:12px}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f6f8;
+  color:#222;
+}
+
+.header{
+  background:#1769aa;
+  color:white;
+  padding:18px;
+}
+
+.header h2{
+  margin:0 0 5px;
+}
+
+.container{
+  max-width:600px;
+  margin:auto;
+  padding:18px;
+}
+
+.balance{
+  background:linear-gradient(135deg,#135ed0,#1769aa);
+  color:white;
+  padding:25px;
+  border-radius:18px;
+  margin-bottom:18px;
+}
+
+.balance h1{
+  margin:8px 0 0;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  margin-bottom:16px;
+  box-shadow:0 3px 12px #ddd;
+}
+
+button{
+  width:100%;
+  border:0;
+  padding:15px;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.kpay{
+  background:#f4c400;
+  color:#111;
+}
+
+.wave{
+  background:#18a957;
+  color:white;
+}
+
+.submit{
+  background:#1769aa;
+  color:white;
+}
+
+input,select{
+  width:100%;
+  padding:14px;
+  margin-top:8px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  font-size:16px;
+}
+
+.note{
+  font-size:13px;
+  color:#777;
+  line-height:1.6;
+}
+
+.paybox{
+  display:none;
+}
+
+.success{
+  display:none;
+  background:#e7f8e9;
+  color:#176b2c;
+  padding:14px;
+  border-radius:10px;
+  margin-top:12px;
+}
 </style>
 </head>
 
 <body>
 
 <div class="header">
-<h2>💳 My Wallet</h2>
-<div>Credits ဝယ်ယူရန်</div>
+  <h2>💳 My Wallet</h2>
+  <div>Credits ဝယ်ယူရန်</div>
 </div>
 
 <div class="container">
 
-<div class="balance">
-<small>လက်ကျန် Credits</small>
-<h1>0 Credits</h1>
-</div>
+  <div class="balance">
+    <small>လက်ကျန် Credits</small>
+    <h1>0 Credits</h1>
+  </div>
 
-<div class="card">
-<h3>💰 Credits ဝယ်ရန်</h3>
+  <div class="card">
 
-<label>ဝယ်မည့် Credits</label>
+    <h3>💰 Credits ဝယ်ရန်</h3>
 
-<select id="credits">
-<option>1,000 Credits</option>
-<option>5,000 Credits</option>
-<option>10,000 Credits</option>
-<option>50,000 Credits</option>
-</select>
+    <label>ဝယ်မည့် Credits</label>
 
-<button class="kpay" onclick="choose('KPay')">
-💛 KPay ဖြင့်ပေးချေမည်
-</button>
+    <select id="credits">
+      <option value="1000">1,000 Credits</option>
+      <option value="5000">5,000 Credits</option>
+      <option value="10000">10,000 Credits</option>
+      <option value="50000">50,000 Credits</option>
+    </select>
 
-<button class="wave" onclick="choose('WavePay')">
-💚 WavePay ဖြင့်ပေးချေမည်
-</button>
+    <button class="kpay" onclick="choose('KPay')">
+      💛 KPay ဖြင့်ငွေပေးချေမည်
+    </button>
 
-</div>
+    <button class="wave" onclick="choose('WavePay')">
+      💚 WavePay ဖြင့်ငွေပေးချေမည်
+    </button>
 
-<div class="card paybox" id="box">
+  </div>
 
-<h3 id="title"></h3>
+  <div class="card paybox" id="box">
 
-<p class="note">
-အောက်ကအကောင့်ကို ငွေလွှဲပြီး Transaction ID ကို ဖြည့်ပါ။
-ငွေစစ်ဆေးပြီးမှ Credits ထည့်ပေးပါမည်။
-</p>
+    <h3 id="title"></h3>
 
-<div class="account">
-<b>ငွေလက်ခံအကောင့်</b><br>
-<span id="account">
-ဒီနေရာမှာ KPay/WavePay အကောင့်အချက်အလက် ထည့်ပါ။
-</span>
-</div>
+    <p class="note">
+      ငွေပေးချေပြီးပါက ပြေစာပုံကို အောက်တွင်ထည့်ပေးပါ။
+    </p>
 
-<label>ငွေလွှဲသူအမည်</label>
-<input id="sender" placeholder="အမည်">
+    <label>ငွေပေးသူအမည်</label>
 
-  <input id="txid" type="text" inputmode="numeric" maxlength="5" placeholder="နောက်ဆုံး ၅ လုံး"><input type="file" id="receipt" accept="image/*">
+    <input
+      id="sender"
+      type="text"
+      placeholder="အမည်"
+    >
 
-<button class="submit" onclick="send()">
-📩 ငွေပေးချေမှု တင်မည်
-</button>
+    <label>ပြေစာပုံ</label>
 
-<div class="success" id="ok">
-တင်ပြီးပါပြီ။ ငွေပေးချေမှုကို စစ်ဆေးပြီး Credits ထည့်ပေးပါမည်။
-</div>
+    <input
+      id="receipt"
+      type="file"
+      accept="image/*"
+    >
 
-</div>
+    <button class="submit" onclick="send()">
+      📩 ငွေပေးချေမှု တင်မည်
+    </button>
 
-<div class="card">
-<h3>🔒 လုံခြုံရေး</h3>
-<p class="note">
-KPay/WavePay PIN၊ Password၊ OTP များကို
-ဒီ website ထဲ မထည့်ပါနှင့်။
-</p>
-</div>
+    <div class="success" id="ok">
+      ✅ ပြေစာတင်ပြီးပါပြီ။ စစ်ဆေးပြီး Credits ထည့်ပေးပါမည်။
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <h3>🔒 လုံခြုံရေး</h3>
+
+    <p class="note">
+      KPay/WavePay PIN၊ Password၊ OTP များကို
+      website ထဲ မထည့်ပါနှင့်။
+    </p>
+
+  </div>
 
 </div>
 
 <script>
 
-function choose(m){
+let selectedPayment = "";
 
-document.getElementById('box').style.display='block';
+function choose(method){
 
-document.getElementById('title').innerText=
-'💳 '+m+' ဖြင့် ငွေပေးချေရန်';
+  selectedPayment = method;
 
-document.getElementById('account').innerText=
-m+' အကောင့်အမည် / ဖုန်းနံပါတ်ကို ဒီနေရာမှာ ထည့်ပါ။';
+  document.getElementById("box").style.display = "block";
+
+  document.getElementById("title").innerText =
+    "💳 " + method + " ဖြင့် ငွေပေးချေခြင်း";
 
 }
 
 function send(){
 
-if(
-!document.getElementById('sender').value.trim() ||
-!document.getElementById('txid').value.trim()
-){
+  const sender =
+    document.getElementById("sender").value.trim();
 
-alert('ငွေလွှဲသူအမည်နဲ့ Transaction ID ကို ဖြည့်ပါ။');
+  const receipt =
+    document.getElementById("receipt").files[0];
 
-return;
+  if(!sender){
 
-}
+    alert("ငွေပေးသူအမည် ထည့်ပေးပါ");
 
-document.getElementById('ok').style.display='block';
+    return;
+  }
+
+  if(!receipt){
+
+    alert("ပြေစာပုံ ထည့်ပေးပါ");
+
+    return;
+  }
+
+  document.getElementById("ok").style.display = "block";
 
 }
 
 </script>
 
 </body>
-</html>
+  </html>
