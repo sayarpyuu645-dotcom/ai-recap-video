@@ -4,153 +4,136 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>My Wallet</title>
-
 <style>
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f4f6f8;
-  color:#222;
-}
-.header{
-  background:#1769aa;
-  color:white;
-  padding:18px;
-}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f6f8;color:#222}
+.header{background:#1769aa;color:white;padding:18px}
 .header h2{margin:0 0 5px}
-.container{
-  max-width:600px;
-  margin:auto;
-  padding:18px;
-}
-.balance{
-  background:linear-gradient(135deg,#135ed0,#1769aa);
-  color:white;
-  padding:25px;
-  border-radius:18px;
-  margin-bottom:18px;
-  box-shadow:0 5px 18px #bbb;
-}
-.balance small{opacity:.8}
+.container{max-width:600px;margin:auto;padding:18px}
+.balance{background:linear-gradient(135deg,#135ed0,#1769aa);color:white;padding:25px;border-radius:18px;margin-bottom:18px}
 .balance h1{margin:8px 0 0}
-.card{
-  background:white;
-  padding:20px;
-  border-radius:16px;
-  margin-bottom:16px;
-  box-shadow:0 3px 12px #ddd;
-}
-button{
-  width:100%;
-  border:0;
-  padding:15px;
-  border-radius:12px;
-  font-size:16px;
-  font-weight:bold;
-  margin-top:10px;
-  cursor:pointer;
-}
-.kpay{background:#f4c400;color:#111}
+.card{background:white;padding:20px;border-radius:16px;margin-bottom:16px}
+button{width:100%;border:0;padding:15px;border-radius:12px;font-size:16px;font-weight:bold;margin-top:10px}
+.kpay{background:#f4c400}
 .wave{background:#18a957;color:white}
-.buy{background:#1769aa;color:white}
-input,select{
-  width:100%;
-  padding:14px;
-  margin-top:8px;
-  border:1px solid #ccc;
-  border-radius:10px;
-  font-size:16px;
-}
-.note{
-  font-size:13px;
-  color:#777;
-  line-height:1.6;
-}
+.submit{background:#1769aa;color:white}
+input,select{width:100%;padding:14px;margin-top:8px;border:1px solid #ccc;border-radius:10px;font-size:16px}
+.note{font-size:13px;color:#777;line-height:1.6}
+.paybox{display:none}
+.account{background:#f7f7f7;padding:12px;border-radius:10px;margin-top:10px;line-height:1.8}
+.success{display:none;background:#e7f8e9;color:#176b2c;padding:14px;border-radius:10px;margin-top:12px}
 </style>
 </head>
 
 <body>
 
 <div class="header">
-  <h2>💳 My Wallet</h2>
-  <div>Credits ဝယ်ယူရန်</div>
+<h2>💳 My Wallet</h2>
+<div>Credits ဝယ်ယူရန်</div>
 </div>
 
 <div class="container">
 
-  <div class="balance">
-    <small>လက်ကျန် Credits</small>
-    <h1 id="balance">0 Credits</h1>
-  </div>
+<div class="balance">
+<small>လက်ကျန် Credits</small>
+<h1>0 Credits</h1>
+</div>
 
-  <div class="card">
-    <h3>💰 Credits ဝယ်ရန်</h3>
+<div class="card">
+<h3>💰 Credits ဝယ်ရန်</h3>
 
-    <label>ဝယ်မည့် Credits</label>
+<label>ဝယ်မည့် Credits</label>
 
-    <select id="credits">
-      <option value="1000">1,000 Credits</option>
-      <option value="5000">5,000 Credits</option>
-      <option value="10000">10,000 Credits</option>
-      <option value="50000">50,000 Credits</option>
-    </select>
+<select id="credits">
+<option>1,000 Credits</option>
+<option>5,000 Credits</option>
+<option>10,000 Credits</option>
+<option>50,000 Credits</option>
+</select>
 
-    <button class="kpay" onclick="choosePayment('KPay')">
-      💛 KPay ဖြင့်ပေးချေမည်
-    </button>
+<button class="kpay" onclick="choose('KPay')">
+💛 KPay ဖြင့်ပေးချေမည်
+</button>
 
-    <button class="wave" onclick="choosePayment('WavePay')">
-      💚 WavePay ဖြင့်ပေးချေမည်
-    </button>
-  </div>
+<button class="wave" onclick="choose('WavePay')">
+💚 WavePay ဖြင့်ပေးချေမည်
+</button>
 
-  <div class="card" id="paymentBox" style="display:none">
-    <h3 id="paymentTitle"></h3>
+</div>
 
-    <p class="note">
-      ဤနေရာသည် Merchant Payment Integration အတွက်ဖြစ်သည်။
-      လက်ရှိတွင် တကယ့်ငွေပေးချေမှု API မချိတ်ရသေးပါ။
-    </p>
+<div class="card paybox" id="box">
 
-    <button class="buy" onclick="startPayment()">
-      ဆက်လုပ်မည်
-    </button>
-  </div>
+<h3 id="title"></h3>
 
-  <div class="card">
-    <h3>🔒 လုံခြုံရေး</h3>
-    <p class="note">
-      KPay/WavePay PIN၊ Password၊ OTP သို့မဟုတ်
-      API Secret ကို ဤ website ထဲ မထည့်ပါနှင့်။
-      တကယ့် payment verification ကို secure server မှာသာ ပြုလုပ်ရပါမည်။
-    </p>
-  </div>
+<p class="note">
+အောက်ကအကောင့်ကို ငွေလွှဲပြီး Transaction ID ကို ဖြည့်ပါ။
+ငွေစစ်ဆေးပြီးမှ Credits ထည့်ပေးပါမည်။
+</p>
+
+<div class="account">
+<b>ငွေလက်ခံအကောင့်</b><br>
+<span id="account">
+ဒီနေရာမှာ KPay/WavePay အကောင့်အချက်အလက် ထည့်ပါ။
+</span>
+</div>
+
+<label>ငွေလွှဲသူအမည်</label>
+<input id="sender" placeholder="အမည်">
+
+<label>Transaction ID / Reference</label>
+<input id="txid" placeholder="Transaction ID">
+
+<button class="submit" onclick="send()">
+📩 ငွေပေးချေမှု တင်မည်
+</button>
+
+<div class="success" id="ok">
+တင်ပြီးပါပြီ။ ငွေပေးချေမှုကို စစ်ဆေးပြီး Credits ထည့်ပေးပါမည်။
+</div>
+
+</div>
+
+<div class="card">
+<h3>🔒 လုံခြုံရေး</h3>
+<p class="note">
+KPay/WavePay PIN၊ Password၊ OTP များကို
+ဒီ website ထဲ မထည့်ပါနှင့်။
+</p>
+</div>
 
 </div>
 
 <script>
-let selectedPayment = "";
 
-function choosePayment(method){
-  selectedPayment = method;
+function choose(m){
 
-  document.getElementById("paymentBox").style.display = "block";
+document.getElementById('box').style.display='block';
 
-  document.getElementById("paymentTitle").innerText =
-    "💳 " + method + " Payment";
+document.getElementById('title').innerText=
+'💳 '+m+' ဖြင့် ငွေပေးချေရန်';
+
+document.getElementById('account').innerText=
+m+' အကောင့်အမည် / ဖုန်းနံပါတ်ကို ဒီနေရာမှာ ထည့်ပါ။';
+
 }
 
-function startPayment(){
-  const credits = document.getElementById("credits").value;
+function send(){
 
-  alert(
-    selectedPayment +
-    " ကိုရွေးထားပါတယ်။\n\n" +
-    credits +
-    " Credits အတွက် Merchant Payment API ချိတ်ရန်လိုပါသေးသည်။"
-  );
+if(
+!document.getElementById('sender').value.trim() ||
+!document.getElementById('txid').value.trim()
+){
+
+alert('ငွေလွှဲသူအမည်နဲ့ Transaction ID ကို ဖြည့်ပါ။');
+
+return;
+
 }
+
+document.getElementById('ok').style.display='block';
+
+}
+
 </script>
 
 </body>
