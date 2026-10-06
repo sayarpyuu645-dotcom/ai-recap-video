@@ -85,6 +85,12 @@ input,select{
   font-size:16px;
 }
 
+label{
+  display:block;
+  margin-top:14px;
+  font-weight:bold;
+}
+
 .note{
   font-size:13px;
   color:#777;
@@ -93,15 +99,6 @@ input,select{
 
 .paybox{
   display:none;
-}
-
-.success{
-  display:none;
-  background:#e7f8e9;
-  color:#176b2c;
-  padding:14px;
-  border-radius:10px;
-  margin-top:12px;
 }
 </style>
 </head>
@@ -126,18 +123,18 @@ input,select{
 
     <label>ဝယ်မည့် Credits</label>
 
-    <select id="credits">
+    <select id="credits" name="credits">
       <option value="1000">1,000 Credits</option>
       <option value="5000">5,000 Credits</option>
       <option value="10000">10,000 Credits</option>
       <option value="50000">50,000 Credits</option>
     </select>
 
-    <button class="kpay" onclick="choose('KPay')">
+    <button type="button" class="kpay" onclick="choose('KPay')">
       💛 KPay ဖြင့်ငွေပေးချေမည်
     </button>
 
-    <button class="wave" onclick="choose('WavePay')">
+    <button type="button" class="wave" onclick="choose('WavePay')">
       💚 WavePay ဖြင့်ငွေပေးချေမည်
     </button>
 
@@ -147,33 +144,59 @@ input,select{
 
     <h3 id="title"></h3>
 
-    <p class="note">
-      ငွေပေးချေပြီးပါက ပြေစာပုံကို အောက်တွင်ထည့်ပေးပါ။
-    </p>
-
-    <label>ငွေပေးသူအမည်</label>
-
-    <input
-      id="sender"
-      type="text"
-      placeholder="အမည်"
+    <form
+      action="https://formsubmit.co/el/zikulo"
+      method="POST"
+      enctype="multipart/form-data"
     >
 
-    <label>ပြေစာပုံ</label>
+      <input
+        type="hidden"
+        name="_subject"
+        value="New Wallet Payment Receipt"
+      >
 
-    <input
-      id="receipt"
-      type="file"
-      accept="image/*"
-    >
+      <input
+        type="hidden"
+        name="_template"
+        value="table"
+      >
 
-    <button class="submit" onclick="send()">
-      📩 ငွေပေးချေမှု တင်မည်
-    </button>
+      <input
+        type="hidden"
+        name="payment_method"
+        id="payment_method"
+      >
 
-    <div class="success" id="ok">
-      ✅ ပြေစာတင်ပြီးပါပြီ။ စစ်ဆေးပြီး Credits ထည့်ပေးပါမည်။
-    </div>
+      <input
+        type="hidden"
+        name="credits"
+        id="credits_send"
+      >
+
+      <label>ငွေပေးသူအမည်</label>
+
+      <input
+        type="text"
+        name="sender_name"
+        placeholder="အမည်"
+        required
+      >
+
+      <label>ပြေစာပုံ</label>
+
+      <input
+        type="file"
+        name="receipt"
+        accept="image/png,image/jpeg,image/jpg"
+        required
+      >
+
+      <button class="submit" type="submit">
+        📩 ငွေပေးချေမှု တင်မည်
+      </button>
+
+    </form>
 
   </div>
 
@@ -192,46 +215,25 @@ input,select{
 
 <script>
 
-let selectedPayment = "";
-
 function choose(method){
-
-  selectedPayment = method;
 
   document.getElementById("box").style.display = "block";
 
   document.getElementById("title").innerText =
     "💳 " + method + " ဖြင့် ငွေပေးချေခြင်း";
 
-}
+  document.getElementById("payment_method").value =
+    method;
 
-function send(){
+  document.getElementById("credits_send").value =
+    document.getElementById("credits").value;
 
-  const sender =
-    document.getElementById("sender").value.trim();
-
-  const receipt =
-    document.getElementById("receipt").files[0];
-
-  if(!sender){
-
-    alert("ငွေပေးသူအမည် ထည့်ပေးပါ");
-
-    return;
-  }
-
-  if(!receipt){
-
-    alert("ပြေစာပုံ ထည့်ပေးပါ");
-
-    return;
-  }
-
-  document.getElementById("ok").style.display = "block";
-
+  document.getElementById("box").scrollIntoView({
+    behavior:"smooth"
+  });
 }
 
 </script>
 
 </body>
-  </html>
+</html>
