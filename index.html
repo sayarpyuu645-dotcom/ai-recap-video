@@ -81,9 +81,7 @@ input,select{width:100%;padding:14px;margin-top:8px;border:1px solid #ccc;border
 <input id="sender" placeholder="အမည်">
 
 <label>Transaction ID / Reference</label>
-<input id="txid" placeholder="Transaction ID">
-  <label>ပြေစာပုံတင်ရန်</label>
-<input type="file" id="receipt" accept="image/*">
+  <input id="txid" type="text" inputmode="numeric" maxlength="5" placeholder="နောက်ဆုံး ၅ လုံး"><input type="file" id="receipt" accept="image/*">
 
 <button class="submit" onclick="send()">
 📩 ငွေပေးချေမှု တင်မည်
