@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Recap Video</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#0f172a;
+  color:white;
+}
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:30px 20px;
+}
+h1{
+  text-align:center;
+  font-size:32px;
+}
+.subtitle{
+  text-align:center;
+  color:#94a3b8;
+}
+.card{
+  background:#1e293b;
+  padding:25px;
+  border-radius:18px;
+  margin-top:25px;
+}
+input[type=file]{
+  width:100%;
+  padding:15px;
+  background:#334155;
+  border-radius:10px;
+  color:white;
+}
+button{
+  width:100%;
+  margin-top:18px;
+  padding:15px;
+  border:0;
+  border-radius:10px;
+  background:#7c3aed;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+}
+button:active{transform:scale(.98)}
+video{
+  width:100%;
+  margin-top:20px;
+  border-radius:12px;
+  display:none;
+}
+#status{
+  text-align:center;
+  margin-top:20px;
+  color:#a78bfa;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎬 AI Recap Video</h1>
+<p class="subtitle">Turn your video into a short recap</p>
+
+<div class="card">
+
+<input id="videoInput" type="file" accept="video/*">
+
+<video id="videoPreview" controls></video>
+
+<button onclick="createRecap()">✨ Create AI Recap</button>
+
+<div id="status"></div>
+
+</div>
+
+</div>
+
+<script>
+
+const input = document.getElementById("videoInput");
+const video = document.getElementById("videoPreview");
+const status = document.getElementById("status");
+
+input.addEventListener("change", function(){
+
+  const file = this.files[0];
+
+  if(file){
+    video.src = URL.createObjectURL(file);
+    video.style.display = "block";
+    status.innerText = "Video ready ✓";
+  }
+
+});
+
+function createRecap(){
+
+  if(!input.files[0]){
+    status.innerText = "Please select a video first.";
+    return;
+  }
+
+  status.innerText = "🤖 AI is creating your recap...";
+
+  setTimeout(function(){
+    status.innerText =
+      "✅ Recap created! AI processing will be connected next.";
+  },2000);
+
+}
+
+</script>
+
+</body>
+</html>
