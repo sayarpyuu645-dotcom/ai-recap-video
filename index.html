@@ -1,123 +1,318 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Recap Video</title>
+<title>My Wallet</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  background:#0f172a;
+  background:#f4f6f8;
+  color:#17202a;
+}
+
+.header{
+  background:#173b67;
   color:white;
+  padding:22px 18px;
 }
+
+.header h1{
+  margin:0;
+  font-size:24px;
+}
+
+.header p{
+  margin:6px 0 0;
+  opacity:.8;
+}
+
 .container{
-  max-width:700px;
+  max-width:600px;
   margin:auto;
-  padding:30px 20px;
+  padding:18px;
 }
-h1{
-  text-align:center;
-  font-size:32px;
-}
-.subtitle{
-  text-align:center;
-  color:#94a3b8;
-}
-.card{
-  background:#1e293b;
+
+.balance{
+  background:linear-gradient(135deg,#1769aa,#0d47a1);
+  color:white;
   padding:25px;
   border-radius:18px;
-  margin-top:25px;
+  margin-top:10px;
+  box-shadow:0 8px 25px #0002;
 }
-input[type=file]{
-  width:100%;
-  padding:15px;
-  background:#334155;
-  border-radius:10px;
-  color:white;
+
+.balance small{
+  opacity:.8;
 }
+
+.balance h2{
+  margin:8px 0 0;
+  font-size:32px;
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:18px 0;
+}
+
 button{
-  width:100%;
-  margin-top:18px;
-  padding:15px;
   border:0;
-  border-radius:10px;
-  background:#7c3aed;
+  padding:16px;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.deposit{
+  background:#16834b;
   color:white;
-  font-size:17px;
+}
+
+.bank{
+  background:#fff;
+  color:#173b67;
+  border:1px solid #ddd;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  margin-top:15px;
+  box-shadow:0 3px 12px #0001;
+}
+
+.card h3{
+  margin-top:0;
+}
+
+.bank-item{
+  padding:15px;
+  background:#f5f7fa;
+  border-radius:12px;
+  margin-top:10px;
+}
+
+.transaction{
+  display:flex;
+  justify-content:space-between;
+  padding:14px 0;
+  border-bottom:1px solid #eee;
+}
+
+.green{
+  color:#16834b;
   font-weight:bold;
 }
-button:active{transform:scale(.98)}
-video{
-  width:100%;
-  margin-top:20px;
-  border-radius:12px;
+
+.modal{
   display:none;
+  position:fixed;
+  inset:0;
+  background:#0008;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
 }
-#status{
-  text-align:center;
-  margin-top:20px;
-  color:#a78bfa;
+
+.modal-box{
+  background:white;
+  width:100%;
+  max-width:420px;
+  padding:25px;
+  border-radius:18px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  margin:8px 0 15px;
+  font-size:16px;
+}
+
+.primary{
+  width:100%;
+  background:#1769aa;
+  color:white;
+}
+
+.close{
+  width:100%;
+  margin-top:8px;
+  background:#eee;
 }
 </style>
 </head>
 
 <body>
 
+<div class="header">
+  <h1>💳 My Wallet</h1>
+  <p>သင့်ငွေကြေးကို တစ်နေရာတည်းမှာ စီမံပါ</p>
+</div>
+
 <div class="container">
 
-<h1>🎬 AI Recap Video</h1>
-<p class="subtitle">Turn your video into a short recap</p>
+  <div class="balance">
+    <small>လက်ကျန်ငွေ</small>
+    <h2 id="balance">0 MMK</h2>
+  </div>
 
-<div class="card">
+  <div class="actions">
+    <button class="deposit" onclick="openDeposit()">
+      ➕ ငွေသွင်း
+    </button>
 
-<input id="videoInput" type="file" accept="video/*">
+    <button class="bank" onclick="openBank()">
+      🏦 ဘဏ်ချိတ်
+    </button>
+  </div>
 
-<video id="videoPreview" controls></video>
+  <div class="card">
+    <h3>🏦 ချိတ်ထားသောဘဏ်</h3>
 
-<button onclick="createRecap()">✨ Create AI Recap</button>
+    <div class="bank-item">
+      <b id="bankName">ဘဏ်အကောင့် မချိတ်ရသေးပါ</b>
+      <br>
+      <small id="bankNumber">•••• ••••</small>
+    </div>
+  </div>
 
-<div id="status"></div>
+  <div class="card">
+    <h3>📋 နောက်ဆုံးလုပ်ဆောင်ချက်များ</h3>
+
+    <div class="transaction">
+      <span>လက်ကျန်စတင်ငွေ</span>
+      <span>0 MMK</span>
+    </div>
+
+    <div class="transaction">
+      <span>ငွေသွင်းခြင်း</span>
+      <span class="green">+0 MMK</span>
+    </div>
+  </div>
 
 </div>
 
+<!-- Deposit -->
+<div class="modal" id="depositModal">
+  <div class="modal-box">
+    <h2>💰 ငွေသွင်းရန်</h2>
+
+    <label>ငွေပမာဏ (MMK)</label>
+    <input id="depositAmount" type="number" placeholder="ဥပမာ - 50000">
+
+    <button class="primary" onclick="depositMoney()">
+      ဆက်လုပ်မည်
+    </button>
+
+    <button class="close" onclick="closeDeposit()">
+      ပိတ်မည်
+    </button>
+  </div>
+</div>
+
+<!-- Bank -->
+<div class="modal" id="bankModal">
+  <div class="modal-box">
+    <h2>🏦 ဘဏ်အကောင့်ချိတ်ရန်</h2>
+
+    <label>ဘဏ်အမည်</label>
+    <input id="bankInput" type="text" placeholder="ဥပမာ - KBZ">
+
+    <label>အကောင့်နောက်ဆုံးဂဏန်းများ</label>
+    <input id="accountInput" type="text" maxlength="4"
+           placeholder="ဥပမာ - 1234">
+
+    <button class="primary" onclick="connectBank()">
+      ဘဏ်ချိတ်မည်
+    </button>
+
+    <button class="close" onclick="closeBank()">
+      ပိတ်မည်
+    </button>
+  </div>
 </div>
 
 <script>
 
-const input = document.getElementById("videoInput");
-const video = document.getElementById("videoPreview");
-const status = document.getElementById("status");
+let balance = 0;
 
-input.addEventListener("change", function(){
+function openDeposit(){
+  document.getElementById("depositModal").style.display="flex";
+}
 
-  const file = this.files[0];
+function closeDeposit(){
+  document.getElementById("depositModal").style.display="none";
+}
 
-  if(file){
-    video.src = URL.createObjectURL(file);
-    video.style.display = "block";
-    status.innerText = "Video ready ✓";
-  }
+function depositMoney(){
 
-});
+  const amount =
+    Number(document.getElementById("depositAmount").value);
 
-function createRecap(){
-
-  if(!input.files[0]){
-    status.innerText = "Please select a video first.";
+  if(!amount || amount <= 0){
+    alert("ငွေပမာဏ မှန်ကန်စွာထည့်ပါ");
     return;
   }
 
-  status.innerText = "🤖 AI is creating your recap...";
+  balance += amount;
 
-  setTimeout(function(){
-    status.innerText =
-      "✅ Recap created! AI processing will be connected next.";
-  },2000);
+  document.getElementById("balance").innerText =
+    balance.toLocaleString() + " MMK";
 
+  closeDeposit();
+
+  document.getElementById("depositAmount").value="";
+
+  alert(
+    amount.toLocaleString() +
+    " MMK ကို Demo အနေနဲ့ ထည့်ပြီးပါပြီ။"
+  );
+}
+
+function openBank(){
+  document.getElementById("bankModal").style.display="flex";
+}
+
+function closeBank(){
+  document.getElementById("bankModal").style.display="none";
+}
+
+function connectBank(){
+
+  const bank =
+    document.getElementById("bankInput").value.trim();
+
+  const account =
+    document.getElementById("accountInput").value.trim();
+
+  if(!bank || account.length < 4){
+    alert("ဘဏ်အမည်နဲ့ အကောင့်နောက်ဆုံးဂဏန်း ၄ လုံးထည့်ပါ");
+    return;
+  }
+
+  document.getElementById("bankName").innerText =
+    bank + " Bank";
+
+  document.getElementById("bankNumber").innerText =
+    "•••• •••• " + account;
+
+  closeBank();
+
+  alert("Demo အနေနဲ့ ဘဏ်အကောင့်ချိတ်ပြီးပါပြီ။");
 }
 
 </script>
