@@ -2,136 +2,70 @@
 <html lang="my">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>My Wallet</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
-
+*{box-sizing:border-box}
 body{
   margin:0;
   font-family:Arial,sans-serif;
   background:#f4f6f8;
-  color:#17202a;
+  color:#222;
 }
-
 .header{
-  background:#173b67;
+  background:#1769aa;
   color:white;
-  padding:22px 18px;
+  padding:18px;
 }
-
-.header h1{
-  margin:0;
-  font-size:24px;
-}
-
-.header p{
-  margin:6px 0 0;
-  opacity:.8;
-}
-
+.header h2{margin:0 0 5px}
 .container{
   max-width:600px;
   margin:auto;
   padding:18px;
 }
-
 .balance{
-  background:linear-gradient(135deg,#135deg,#1769aa,#0d47a1);
+  background:linear-gradient(135deg,#135ed0,#1769aa);
   color:white;
   padding:25px;
   border-radius:18px;
-  margin-top:10px;
-  box-shadow:0 8px 25px #0002;
+  margin-bottom:18px;
+  box-shadow:0 5px 18px #bbb;
 }
-
-.balance small{
-  opacity:.8;
+.balance small{opacity:.8}
+.balance h1{margin:8px 0 0}
+.card{
+  background:white;
+  padding:20px;
+  border-radius:16px;
+  margin-bottom:16px;
+  box-shadow:0 3px 12px #ddd;
 }
-
-.balance h2{
-  margin:8px 0 0;
-  font-size:32px;
-}
-
-.actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin:18px 0;
-}
-
 button{
+  width:100%;
   border:0;
-  padding:16px;
+  padding:15px;
   border-radius:12px;
   font-size:16px;
   font-weight:bold;
+  margin-top:10px;
   cursor:pointer;
 }
-
-.deposit{
-  background:#16834b;
-  color:white;
-}
-
-.bank{
-  background:white;
-  color:#173b67;
-}
-
-.card{
-  background:white;
-  padding:18px;
-  border-radius:16px;
-  margin-top:14px;
-  box-shadow:0 3px 12px #0001;
-}
-
-.card h3{
-  margin-top:0;
-}
-
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:#0008;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-
-.modal-box{
-  background:white;
+.kpay{background:#f4c400;color:#111}
+.wave{background:#18a957;color:white}
+.buy{background:#1769aa;color:white}
+input,select{
   width:100%;
-  max-width:420px;
-  padding:22px;
-  border-radius:16px;
-}
-
-.modal-box input{
-  width:100%;
-  padding:13px;
-  margin:8px 0;
+  padding:14px;
+  margin-top:8px;
   border:1px solid #ccc;
   border-radius:10px;
+  font-size:16px;
 }
-
-.confirm{
-  width:100%;
-  background:#1769aa;
-  color:white;
-  margin-top:10px;
-}
-
-.close{
-  width:100%;
-  background:#eee;
-  margin-top:8px;
+.note{
+  font-size:13px;
+  color:#777;
+  line-height:1.6;
 }
 </style>
 </head>
@@ -139,150 +73,84 @@ button{
 <body>
 
 <div class="header">
-  <h1>💳 My Wallet</h1>
-  <p>ငွေကြေးမှတ်တမ်းများကို Demo အနေနဲ့ စီမံနိုင်ပါသည်</p>
+  <h2>💳 My Wallet</h2>
+  <div>Credits ဝယ်ယူရန်</div>
 </div>
 
 <div class="container">
 
   <div class="balance">
-    <small>လက်ကျန်ငွေ</small>
-    <h2 id="balance">0 MMK</h2>
-  </div>
-
-  <div class="actions">
-    <button class="deposit" onclick="openDeposit()">
-      💰 ငွေသွင်း
-    </button>
-
-    <button class="bank" onclick="openBank()">
-      🏦 ဘဏ် Demo
-    </button>
+    <small>လက်ကျန် Credits</small>
+    <h1 id="balance">0 Credits</h1>
   </div>
 
   <div class="card">
-    <h3>🏦 ချိတ်ဆက်ထားသောဘဏ်</h3>
-    <p id="bankStatus">ဘဏ်အကောင့် မချိတ်ဆက်ရသေးပါ</p>
-  </div>
+    <h3>💰 Credits ဝယ်ရန်</h3>
 
-  <div class="card">
-    <h3>📋 နောက်ဆုံးလုပ်ဆောင်ချက်များ</h3>
-    <p>လက်ကျန်ငွေ — <span id="historyBalance">0 MMK</span></p>
-    <p>နောက်ဆုံးပြောင်းလဲမှု — <span id="history">+0 MMK</span></p>
-  </div>
+    <label>ဝယ်မည့် Credits</label>
 
-</div>
+    <select id="credits">
+      <option value="1000">1,000 Credits</option>
+      <option value="5000">5,000 Credits</option>
+      <option value="10000">10,000 Credits</option>
+      <option value="50000">50,000 Credits</option>
+    </select>
 
-<!-- Deposit -->
-<div class="modal" id="depositModal">
-  <div class="modal-box">
-    <h3>💰 Demo ငွေသွင်း</h3>
-
-    <input
-      type="number"
-      id="depositAmount"
-      placeholder="ငွေပမာဏ (MMK)"
-    >
-
-    <button class="confirm" onclick="deposit()">
-      ငွေသွင်းမည်
+    <button class="kpay" onclick="choosePayment('KPay')">
+      💛 KPay ဖြင့်ပေးချေမည်
     </button>
 
-    <button class="close" onclick="closeDeposit()">
-      ပိတ်မည်
+    <button class="wave" onclick="choosePayment('WavePay')">
+      💚 WavePay ဖြင့်ပေးချေမည်
     </button>
   </div>
-</div>
 
-<!-- Bank Demo -->
-<div class="modal" id="bankModal">
-  <div class="modal-box">
-    <h3>🏦 ဘဏ် Demo</h3>
+  <div class="card" id="paymentBox" style="display:none">
+    <h3 id="paymentTitle"></h3>
 
-    <p>
-      ဒါက Demo သာဖြစ်ပြီး တကယ့်ဘဏ်အကောင့်
-      အချက်အလက်များကို မတောင်းပါ။
+    <p class="note">
+      ဤနေရာသည် Merchant Payment Integration အတွက်ဖြစ်သည်။
+      လက်ရှိတွင် တကယ့်ငွေပေးချေမှု API မချိတ်ရသေးပါ။
     </p>
 
-    <button class="confirm" onclick="connectDemoBank()">
-      Demo ဘဏ်ချိတ်မည်
-    </button>
-
-    <button class="close" onclick="closeBank()">
-      ပိတ်မည်
+    <button class="buy" onclick="startPayment()">
+      ဆက်လုပ်မည်
     </button>
   </div>
+
+  <div class="card">
+    <h3>🔒 လုံခြုံရေး</h3>
+    <p class="note">
+      KPay/WavePay PIN၊ Password၊ OTP သို့မဟုတ်
+      API Secret ကို ဤ website ထဲ မထည့်ပါနှင့်။
+      တကယ့် payment verification ကို secure server မှာသာ ပြုလုပ်ရပါမည်။
+    </p>
+  </div>
+
 </div>
 
 <script>
+let selectedPayment = "";
 
-let balance = 0;
+function choosePayment(method){
+  selectedPayment = method;
 
-function updateBalance(){
-  document.getElementById("balance").innerText =
-    balance.toLocaleString() + " MMK";
+  document.getElementById("paymentBox").style.display = "block";
 
-  document.getElementById("historyBalance").innerText =
-    balance.toLocaleString() + " MMK";
+  document.getElementById("paymentTitle").innerText =
+    "💳 " + method + " Payment";
 }
 
-function openDeposit(){
-  document.getElementById("depositModal").style.display="flex";
-}
-
-function closeDeposit(){
-  document.getElementById("depositModal").style.display="none";
-}
-
-function deposit(){
-
-  const input =
-    document.getElementById("depositAmount");
-
-  const amount = Number(input.value);
-
-  if(!amount || amount <= 0){
-    alert("ငွေပမာဏ မှန်ကန်စွာထည့်ပါ");
-    return;
-  }
-
-  balance += amount;
-
-  updateBalance();
-
-  document.getElementById("history").innerText =
-    "+" + amount.toLocaleString() + " MMK";
-
-  input.value = "";
-
-  closeDeposit();
+function startPayment(){
+  const credits = document.getElementById("credits").value;
 
   alert(
-    amount.toLocaleString() +
-    " MMK Demo ငွေသွင်းပြီးပါပြီ"
+    selectedPayment +
+    " ကိုရွေးထားပါတယ်။\n\n" +
+    credits +
+    " Credits အတွက် Merchant Payment API ချိတ်ရန်လိုပါသေးသည်။"
   );
 }
-
-function openBank(){
-  document.getElementById("bankModal").style.display="flex";
-}
-
-function closeBank(){
-  document.getElementById("bankModal").style.display="none";
-}
-
-function connectDemoBank(){
-
-  document.getElementById("bankStatus").innerText =
-    "✅ Demo ဘဏ် ချိတ်ဆက်ထားသည်";
-
-  closeBank();
-
-  alert("Demo ဘဏ်ချိတ်ဆက်ပြီးပါပြီ");
-}
-
-updateBalance();
-
 </script>
 
 </body>
