@@ -40,7 +40,7 @@ body{
 }
 
 .balance{
-  background:linear-gradient(135deg,#1769aa,#0d47a1);
+  background:linear-gradient(135deg,#135deg,#1769aa,#0d47a1);
   color:white;
   padding:25px;
   border-radius:18px;
@@ -79,40 +79,20 @@ button{
 }
 
 .bank{
-  background:#fff;
+  background:white;
   color:#173b67;
-  border:1px solid #ddd;
 }
 
 .card{
   background:white;
-  padding:20px;
+  padding:18px;
   border-radius:16px;
-  margin-top:15px;
+  margin-top:14px;
   box-shadow:0 3px 12px #0001;
 }
 
 .card h3{
   margin-top:0;
-}
-
-.bank-item{
-  padding:15px;
-  background:#f5f7fa;
-  border-radius:12px;
-  margin-top:10px;
-}
-
-.transaction{
-  display:flex;
-  justify-content:space-between;
-  padding:14px 0;
-  border-bottom:1px solid #eee;
-}
-
-.green{
-  color:#16834b;
-  font-weight:bold;
 }
 
 .modal{
@@ -129,29 +109,29 @@ button{
   background:white;
   width:100%;
   max-width:420px;
-  padding:25px;
-  border-radius:18px;
+  padding:22px;
+  border-radius:16px;
 }
 
-input{
+.modal-box input{
   width:100%;
-  padding:14px;
-  border:1px solid #ddd;
+  padding:13px;
+  margin:8px 0;
+  border:1px solid #ccc;
   border-radius:10px;
-  margin:8px 0 15px;
-  font-size:16px;
 }
 
-.primary{
+.confirm{
   width:100%;
   background:#1769aa;
   color:white;
+  margin-top:10px;
 }
 
 .close{
   width:100%;
-  margin-top:8px;
   background:#eee;
+  margin-top:8px;
 }
 </style>
 </head>
@@ -160,7 +140,7 @@ input{
 
 <div class="header">
   <h1>💳 My Wallet</h1>
-  <p>သင့်ငွေကြေးကို တစ်နေရာတည်းမှာ စီမံပါ</p>
+  <p>ငွေကြေးမှတ်တမ်းများကို Demo အနေနဲ့ စီမံနိုင်ပါသည်</p>
 </div>
 
 <div class="container">
@@ -172,36 +152,23 @@ input{
 
   <div class="actions">
     <button class="deposit" onclick="openDeposit()">
-      ➕ ငွေသွင်း
+      💰 ငွေသွင်း
     </button>
 
     <button class="bank" onclick="openBank()">
-      🏦 ဘဏ်ချိတ်
+      🏦 ဘဏ် Demo
     </button>
   </div>
 
   <div class="card">
-    <h3>🏦 ချိတ်ထားသောဘဏ်</h3>
-
-    <div class="bank-item">
-      <b id="bankName">ဘဏ်အကောင့် မချိတ်ရသေးပါ</b>
-      <br>
-      <small id="bankNumber">•••• ••••</small>
-    </div>
+    <h3>🏦 ချိတ်ဆက်ထားသောဘဏ်</h3>
+    <p id="bankStatus">ဘဏ်အကောင့် မချိတ်ဆက်ရသေးပါ</p>
   </div>
 
   <div class="card">
     <h3>📋 နောက်ဆုံးလုပ်ဆောင်ချက်များ</h3>
-
-    <div class="transaction">
-      <span>လက်ကျန်စတင်ငွေ</span>
-      <span>0 MMK</span>
-    </div>
-
-    <div class="transaction">
-      <span>ငွေသွင်းခြင်း</span>
-      <span class="green">+0 MMK</span>
-    </div>
+    <p>လက်ကျန်ငွေ — <span id="historyBalance">0 MMK</span></p>
+    <p>နောက်ဆုံးပြောင်းလဲမှု — <span id="history">+0 MMK</span></p>
   </div>
 
 </div>
@@ -209,13 +176,16 @@ input{
 <!-- Deposit -->
 <div class="modal" id="depositModal">
   <div class="modal-box">
-    <h2>💰 ငွေသွင်းရန်</h2>
+    <h3>💰 Demo ငွေသွင်း</h3>
 
-    <label>ငွေပမာဏ (MMK)</label>
-    <input id="depositAmount" type="number" placeholder="ဥပမာ - 50000">
+    <input
+      type="number"
+      id="depositAmount"
+      placeholder="ငွေပမာဏ (MMK)"
+    >
 
-    <button class="primary" onclick="depositMoney()">
-      ဆက်လုပ်မည်
+    <button class="confirm" onclick="deposit()">
+      ငွေသွင်းမည်
     </button>
 
     <button class="close" onclick="closeDeposit()">
@@ -224,20 +194,18 @@ input{
   </div>
 </div>
 
-<!-- Bank -->
+<!-- Bank Demo -->
 <div class="modal" id="bankModal">
   <div class="modal-box">
-    <h2>🏦 ဘဏ်အကောင့်ချိတ်ရန်</h2>
+    <h3>🏦 ဘဏ် Demo</h3>
 
-    <label>ဘဏ်အမည်</label>
-    <input id="bankInput" type="text" placeholder="ဥပမာ - KBZ">
+    <p>
+      ဒါက Demo သာဖြစ်ပြီး တကယ့်ဘဏ်အကောင့်
+      အချက်အလက်များကို မတောင်းပါ။
+    </p>
 
-    <label>အကောင့်နောက်ဆုံးဂဏန်းများ</label>
-    <input id="accountInput" type="text" maxlength="4"
-           placeholder="ဥပမာ - 1234">
-
-    <button class="primary" onclick="connectBank()">
-      ဘဏ်ချိတ်မည်
+    <button class="confirm" onclick="connectDemoBank()">
+      Demo ဘဏ်ချိတ်မည်
     </button>
 
     <button class="close" onclick="closeBank()">
@@ -250,6 +218,14 @@ input{
 
 let balance = 0;
 
+function updateBalance(){
+  document.getElementById("balance").innerText =
+    balance.toLocaleString() + " MMK";
+
+  document.getElementById("historyBalance").innerText =
+    balance.toLocaleString() + " MMK";
+}
+
 function openDeposit(){
   document.getElementById("depositModal").style.display="flex";
 }
@@ -258,10 +234,12 @@ function closeDeposit(){
   document.getElementById("depositModal").style.display="none";
 }
 
-function depositMoney(){
+function deposit(){
 
-  const amount =
-    Number(document.getElementById("depositAmount").value);
+  const input =
+    document.getElementById("depositAmount");
+
+  const amount = Number(input.value);
 
   if(!amount || amount <= 0){
     alert("ငွေပမာဏ မှန်ကန်စွာထည့်ပါ");
@@ -270,16 +248,18 @@ function depositMoney(){
 
   balance += amount;
 
-  document.getElementById("balance").innerText =
-    balance.toLocaleString() + " MMK";
+  updateBalance();
+
+  document.getElementById("history").innerText =
+    "+" + amount.toLocaleString() + " MMK";
+
+  input.value = "";
 
   closeDeposit();
 
-  document.getElementById("depositAmount").value="";
-
   alert(
     amount.toLocaleString() +
-    " MMK ကို Demo အနေနဲ့ ထည့်ပြီးပါပြီ။"
+    " MMK Demo ငွေသွင်းပြီးပါပြီ"
   );
 }
 
@@ -291,29 +271,17 @@ function closeBank(){
   document.getElementById("bankModal").style.display="none";
 }
 
-function connectBank(){
+function connectDemoBank(){
 
-  const bank =
-    document.getElementById("bankInput").value.trim();
-
-  const account =
-    document.getElementById("accountInput").value.trim();
-
-  if(!bank || account.length < 4){
-    alert("ဘဏ်အမည်နဲ့ အကောင့်နောက်ဆုံးဂဏန်း ၄ လုံးထည့်ပါ");
-    return;
-  }
-
-  document.getElementById("bankName").innerText =
-    bank + " Bank";
-
-  document.getElementById("bankNumber").innerText =
-    "•••• •••• " + account;
+  document.getElementById("bankStatus").innerText =
+    "✅ Demo ဘဏ် ချိတ်ဆက်ထားသည်";
 
   closeBank();
 
-  alert("Demo အနေနဲ့ ဘဏ်အကောင့်ချိတ်ပြီးပါပြီ။");
+  alert("Demo ဘဏ်ချိတ်ဆက်ပြီးပါပြီ");
 }
+
+updateBalance();
 
 </script>
 
